@@ -1,0 +1,17 @@
+# Ignore directories
+node_modules/
+dev-data/
+
+# Ignore configuration files
+.eslintrc.json
+.prettierrc
+
+# Ignore environment-specific files
+config.env
+
+# Ignore generated files
+*.log
+
+# Ignore npm/yarn lock files
+package-lock.json
+yarn.lock
