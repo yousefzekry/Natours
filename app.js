@@ -8,6 +8,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanatize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 const app = express();
 
 // 1) GLOBAL MIDDLEWARES
@@ -34,6 +35,19 @@ app.use(express.json({ limit: '10kb' }));
 app.use(mongoSanatize());
 // Data sanitization against Cross-Site Scripting (XSS)
 app.use(xss());
+// Perevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  }),
+);
 //serving static files
 app.use(express.static(`${__dirname}/public`));
 
