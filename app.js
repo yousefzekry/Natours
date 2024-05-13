@@ -6,6 +6,8 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const mongoSanatize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 const app = express();
 
 // 1) GLOBAL MIDDLEWARES
@@ -28,6 +30,10 @@ app.use('/api', limiter);
 //body-parser: reading data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
 
+// Data sanitization against NoSQL query injection
+app.use(mongoSanatize());
+// Data sanitization against Cross-Site Scripting (XSS)
+app.use(xss());
 //serving static files
 app.use(express.static(`${__dirname}/public`));
 
